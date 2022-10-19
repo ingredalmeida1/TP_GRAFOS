@@ -1,38 +1,90 @@
 class Grafo:
     def __init__(self, quantidadeVertices):
         self.quantidadeVertices = quantidadeVertices
-        # Como em uma lista de adjacência eu só sei que o número de 
-        # linhas será igual ao de colunas, e não se as posições vão
-        # estar ocupadas, eu apenas inicializo as linhas
-        self.grafo = [[] for i in range(self.quantidadeVertices)]
+        self.aresta = [[0 for j in range(self.quantidadeVertices)] for i in range(self.quantidadeVertices)]
 
     def adicionaAresta(self, vertice1, vertice2, peso):
-        # É preciso adicionar de vertice1 para vertice2 e vice e versa
-        # pois se trata de um grafo não direcionado, então a direção não
-        # importa, e precisa ser adicionado nas duas linhas
-        self.grafo[vertice1 - 1].append([vertice2, peso])
-        self.grafo[vertice2 - 1].append([vertice1, peso])
+        self.aresta[vertice1 - 1][vertice2 - 1] = peso
+        self.aresta[vertice2 - 1][vertice1 - 1] = peso
 
     def exibeGrafo(self):
+        print("=" * 25)
+        print("\t", "GRAFO")
+        print("=" * 25)
         for i in range(self.quantidadeVertices):
             print(f'{i + 1}:', end=' ')
-            for j in (self.grafo[i]):
-                print(f'{j}', end=' ')
+            for j in range(self.quantidadeVertices):
+                if self.aresta[i][j] != 0:
+                    print(f' -> {j + 1}', end=' ')
             print('')
+        print("\n")
 
-# Variáveis que serão lidas do arquivo.txt
-quantidadeVertices = 5
+    def retornaVizinhos(self, vertice):
+        vizinhos = []
+        for i in range(self.quantidadeVertices):
+            if self.aresta[vertice - 1][i] != 0:
+                vizinhos.append(i + 1)
+        print(f"Vizinhos do vértice {vertice} -> {vizinhos}")
+        print("\n")
 
-# Inicializando o grafo
-grafo = Grafo(quantidadeVertices)
+    # Algoritmo de Floyd-Warshall
+    def menorCaminho(self, vertice):
+        matrizL = []
+        matrizR = []
+        infinito = float("inf") # Cria um número infinito
+        n = self.quantidadeVertices
+        
+        # Inicialização das matrizes
+        for i in range(n):
+            matrizL.append([infinito] * n)
+            matrizR.append([0] * n)
+        for i in range(n):
+            for j in range(n):
+                if i == j:
+                    matrizL[i][j] = 0
+                elif self.aresta[i][j] != 0:
+                    matrizL[i][j] = self.aresta[i][j]
+        for i in range(n):
+            for j in range(n):
+                if matrizL[i][j] != infinito:
+                    matrizR[i][j] = i + 1
 
-# Adicionando arestas
-grafo.adicionaAresta(1, 2, 1.2)
-grafo.adicionaAresta(2, 5, 2.3)
-grafo.adicionaAresta(3, 5, -8.4)
-grafo.adicionaAresta(3, 4, 0.3)
-grafo.adicionaAresta(4, 5, 4.6)
-grafo.adicionaAresta(1, 5, 0.1)
+        # Cálculo do menor caminho
+        for k in range(n):
+            for i in range(n):
+                for j in range(n):
+                    if matrizL[i][j] > matrizL[i][k] + matrizL[k][j]:
+                        matrizL[i][j] = matrizL[i][k] + matrizL[k][j]
+                        matrizR[i][j] = matrizR[k][j]
 
-# Mostrando o grafo
-grafo.exibeGrafo()
+        # Chamada das funções que imprimem a distância e o caminho
+        self.imprimeDistancia(matrizL[vertice - 1], vertice)
+        for i in range(n):
+            self.imprimeCaminhoMinimo(matrizR[vertice - 1], vertice, i + 1)
+
+    # Função para imprimir o vetor de distâncias
+    def imprimeDistancia(self, vetorDT, vertice):
+        for i in range(len(vetorDT)):
+            print(f'Distância entre {vertice} e {i + 1} -> {round(vetorDT[i], 2)}')
+        print("\n")
+
+    # Função para imprimir o vetor de caminhos
+    def imprimeCaminhoMinimo(self, vetorROT, vertice1, vertice2):
+        vertices = []
+        proximo = vertice2
+        for i in range(len(vetorROT)):
+            vertices.append(proximo)
+            if vetorROT[proximo - 1] == 0:
+                print(vertice1)
+                return
+            elif vetorROT[proximo - 1] != vertice1:
+                proximo = vetorROT[proximo - 1]
+            else:
+                break
+        vertices.append(vertice1)
+        vertices.reverse()
+        print(f'Menor caminho entre {vertice1} e {vertice2}:')
+        for v in vertices:
+            print(f' -> {v}', end=" ")
+        print(" ")
+        
