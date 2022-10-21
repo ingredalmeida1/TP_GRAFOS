@@ -87,4 +87,21 @@ class Grafo:
         for v in vertices:
             print(f' -> {v}', end=" ")
         print(" ")
-        
+
+    def grauVertice(self, vertice):
+        grau = 0
+        for i in range(self.quantidadeVertices):
+            if self.aresta[vertice - 1][i] != 0:
+                grau += 1
+        print(f'Grau do vértice {vertice}: {grau}\n')
+
+    def sequenciaGraus(self):
+        sequencia = [0 for i in range(self.quantidadeVertices)]
+        for i in range(self.quantidadeVertices):
+            for j in range(self.quantidadeVertices):
+                if self.aresta[i][j] != 0:
+                    sequencia[i] += 1
+
+        sequencia.sort(reverse=True)
+        print(f'Sequência de graus do grafo: {sequencia}\n')
+

@@ -14,3 +14,6 @@ for aresta in list_arestas:
         vertice2 = int(aresta[1]['vertice2'])
         peso = float(aresta[1]['peso'])
         grafo.adicionaAresta(vertice1, vertice2, peso)
+grafo.exibeGrafo()
+grafo.grauVertice(1)
+grafo.sequenciaGraus()
