@@ -15,9 +15,42 @@ def ordem(dict_arquivo):
             #maior = exentricidade
     #return (maior)
 
-#def centralidade(vertice x)
-    #N = ordem(dict_arquivo)
-    #ACHO que d(y,x) é a media das distancias (inclue ele?)
-    #se for isso chama distancia dentro de um for percorendo todo vetor vai guardando a soma disso num somatorio
-    #divide o somatorio por N (ou por N-1 se não incluir ele) (para ter a media)
-    #coloca na formula
+def menorCaminhoSomatorio(self, vertice):
+        matrizL = []
+        matrizR = []
+        infinito = float("inf") # Cria um número infinito
+        n = self.quantidadeVertices
+        
+        # Inicialização das matrizes
+        for i in range(n):
+            matrizL.append([infinito] * n)
+            matrizR.append([0] * n)
+        for i in range(n):
+            for j in range(n):
+                if i == j:
+                    matrizL[i][j] = 0
+                elif self.aresta[i][j] != 0:
+                    matrizL[i][j] = self.aresta[i][j]
+        for i in range(n):
+            for j in range(n):
+                if matrizL[i][j] != infinito:
+                    matrizR[i][j] = i + 1
+
+        # Cálculo do menor caminho
+        for k in range(n):
+            for i in range(n):
+                for j in range(n):
+                    if matrizL[i][j] > matrizL[i][k] + matrizL[k][j]:
+                        matrizL[i][j] = matrizL[i][k] + matrizL[k][j]
+                        matrizR[i][j] = matrizR[k][j]
+
+        somatorio = 0
+
+        for j in range (n):
+            somatorio = somatorio +matrizL[j][vertice]
+        return (somatorio)
+
+def centralidade(dict_arquivo, vertice):
+    N = ordem(dict_arquivo)
+    C = (N-1)/menorCaminhoSomatorio(vertice)
+    return (C)
