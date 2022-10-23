@@ -1,11 +1,18 @@
+from biblioteca.biblioteca_amostra import ordem
+
+
 class Grafo:
+    somatorio = 0
+
     def __init__(self, quantidadeVertices):
         self.quantidadeVertices = quantidadeVertices
         self.aresta = [[0 for j in range(self.quantidadeVertices)] for i in range(self.quantidadeVertices)]
 
+
     def adicionaAresta(self, vertice1, vertice2, peso):
         self.aresta[vertice1 - 1][vertice2 - 1] = peso
         self.aresta[vertice2 - 1][vertice1 - 1] = peso
+
 
     def exibeGrafo(self):
         print("=" * 25)
@@ -19,22 +26,21 @@ class Grafo:
             print('')
         print("\n")
 
+
     def retornaVizinhos(self, vertice):
         vizinhos = []
         for i in range(self.quantidadeVertices):
             if self.aresta[vertice - 1][i] != 0:
                 vizinhos.append(i + 1)
-        print(f"Vizinhos do vértice {vertice} -> {vizinhos}")
+        print(f">>> Vizinhos do vértice {vertice} -> {vizinhos}")
         print("\n")
 
-    # Algoritmo de Floyd-Warshall
+
     def menorCaminho(self, vertice):
         matrizL = []
         matrizR = []
-        infinito = float("inf") # Cria um número infinito
+        infinito = float("inf")
         n = self.quantidadeVertices
-        
-        # Inicialização das matrizes
         for i in range(n):
             matrizL.append([infinito] * n)
             matrizR.append([0] * n)
@@ -48,27 +54,22 @@ class Grafo:
             for j in range(n):
                 if matrizL[i][j] != infinito:
                     matrizR[i][j] = i + 1
-
-        # Cálculo do menor caminho
         for k in range(n):
             for i in range(n):
                 for j in range(n):
                     if matrizL[i][j] > matrizL[i][k] + matrizL[k][j]:
                         matrizL[i][j] = matrizL[i][k] + matrizL[k][j]
                         matrizR[i][j] = matrizR[k][j]
-
-        # Chamada das funções que imprimem a distância e o caminho
         self.imprimeDistancia(matrizL[vertice - 1], vertice)
+        print("\n")
         for i in range(n):
             self.imprimeCaminhoMinimo(matrizR[vertice - 1], vertice, i + 1)
 
-    # Função para imprimir o vetor de distâncias
+
     def imprimeDistancia(self, vetorDT, vertice):
         for i in range(len(vetorDT)):
-            print(f'Distância entre {vertice} e {i + 1} -> {round(vetorDT[i], 2)}')
-        print("\n")
+            print(f'Distância entre {vertice} e {i + 1}: {round(vetorDT[i], 2)}')
 
-    # Função para imprimir o vetor de caminhos
     def imprimeCaminhoMinimo(self, vetorROT, vertice1, vertice2):
         vertices = []
         proximo = vertice2
@@ -93,7 +94,8 @@ class Grafo:
         for i in range(self.quantidadeVertices):
             if self.aresta[vertice - 1][i] != 0:
                 grau += 1
-        print(f'Grau do vértice {vertice}: {grau}\n')
+        print(f'>>> Grau do vértice {vertice}: {grau}\n')
+
 
     def sequenciaGraus(self):
         sequencia = [0 for i in range(self.quantidadeVertices)]
@@ -103,5 +105,27 @@ class Grafo:
                     sequencia[i] += 1
 
         sequencia.sort(reverse=True)
-        print(f'Sequência de graus do grafo: {sequencia}\n')
+        print(f'\n>>> Sequência de graus do grafo: {sequencia}\n')
+
+
+    def ordem(self):
+        ordem = self.quantidadeVertices
+        return ordem
+
+
+    def tamanho(self):
+        tam = 0
+        for i in range(self.quantidadeVertices):
+            for j in range(self.quantidadeVertices):
+                if self.aresta[i][j] != 0:
+                    tam += 1
+        tam = tam / 2
+        return int(tam)
+
+
+    def centralidade(self, vertice):
+        N = ordem()
+        self.menorCaminho(vertice)
+        C = (N-1)/self.somatorio
+        return (C)
 
