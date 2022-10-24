@@ -1,9 +1,7 @@
-from biblioteca.biblioteca_amostra import ordem
-
-
 class Grafo:
     matrizL = []
     matrizR = []
+    somatorio = 0
 
     def __init__(self, quantidadeVertices):
         self.quantidadeVertices = quantidadeVertices
@@ -15,6 +13,21 @@ class Grafo:
         self.aresta[vertice2 - 1][vertice1 - 1] = peso
 
 
+    def ordem(self):
+        ordem = self.quantidadeVertices
+        return ordem
+
+
+    def tamanho(self):
+        tam = 0
+        for i in range(self.quantidadeVertices):
+            for j in range(self.quantidadeVertices):
+                if self.aresta[i][j] != 0:
+                    tam += 1
+        tam = tam / 2
+        return int(tam)
+
+
     def retornaVizinhos(self, vertice):
         vizinhos = []
         for i in range(self.quantidadeVertices):
@@ -23,7 +36,44 @@ class Grafo:
         print(f"\n>>> Vizinhos do vértice {vertice} -> {vizinhos}")
 
 
-    def menorCaminho(self, vertice):
+    def grauVertice(self, vertice):
+        grau = 0
+        for i in range(self.quantidadeVertices):
+            if self.aresta[vertice - 1][i] != 0:
+                grau += 1
+        print(f'\n>>> Grau do vértice {vertice}: {grau}')
+
+
+    def sequenciaGraus(self):
+        sequencia = [0 for i in range(self.quantidadeVertices)]
+        for i in range(self.quantidadeVertices):
+            for j in range(self.quantidadeVertices):
+                if self.aresta[i][j] != 0:
+                    sequencia[i] += 1
+        sequencia.sort(reverse=True)
+        print(f'\n>>> Sequência de graus do grafo: {sequencia}')
+
+    
+    # def excentricidade()
+    # def raio()
+    # def diametro()
+    # def centro()
+    # def buscaProfundidade()
+
+
+    def centralidade(self, vertice):
+        flag = self.floydWarshall(vertice)
+        if flag == 1:
+            for j in range(self.quantidadeVertices):
+                self.somatorio = self.somatorio + self.matrizL[j][vertice]
+            N = self.ordem()
+            C = (N-1)/self.somatorio
+            return (round(C, 2))
+        else:
+            return "Ciclo negativo identificado, por consequência não é possível calcular"
+
+
+    def floydWarshall(self, vertice):
         n = self.quantidadeVertices
         infinito = float("inf")
         for i in range(n):
@@ -49,61 +99,21 @@ class Grafo:
             for j in range(n):
                 if i == j:
                     if self.matrizL[i][j] < 0:
-                        print(">>> Ciclo negativo, não é possível encontrar o menor caminho")
-                        return
-        print("\n>>> Distância e caminho mínimo")
-        self.imprimeDistancia(vertice)
-        print("\n")
-        self.imprimeCaminhoMinimo(vertice)
+                        print(">>> Ciclo negativo identificado, não é possível encontrar o menor caminho")
+                        return 0
+                    else:
+                        return 1
+        
 
-
-    def imprimeDistancia(self, vertice):
-        dt = self.matrizL[vertice - 1]
-        for i in range(len(dt)):
-            print(f'>>> Distância entre {vertice} e {i + 1}: {round(dt[i], 2)}')
-
-    def imprimeCaminhoMinimo(self, vertice1):
-        rot = self.matrizR[vertice1 - 1]
-        for i in range(len(rot)):
-            print(f'>>> Caminho mínimo entre {vertice1} e {i + 1}: {round(rot[i], 2)}')
-
-    def grauVertice(self, vertice):
-        grau = 0
-        for i in range(self.quantidadeVertices):
-            if self.aresta[vertice - 1][i] != 0:
-                grau += 1
-        print(f'\n>>> Grau do vértice {vertice}: {grau}')
-
-
-    def sequenciaGraus(self):
-        sequencia = [0 for i in range(self.quantidadeVertices)]
-        for i in range(self.quantidadeVertices):
-            for j in range(self.quantidadeVertices):
-                if self.aresta[i][j] != 0:
-                    sequencia[i] += 1
-
-        sequencia.sort(reverse=True)
-        print(f'\n>>> Sequência de graus do grafo: {sequencia}')
-
-
-    def ordem(self):
-        ordem = self.quantidadeVertices
-        return ordem
-
-
-    def tamanho(self):
-        tam = 0
-        for i in range(self.quantidadeVertices):
-            for j in range(self.quantidadeVertices):
-                if self.aresta[i][j] != 0:
-                    tam += 1
-        tam = tam / 2
-        return int(tam)
-
-
-    def centralidade(self, vertice):
-        N = ordem()
-        self.menorCaminho(vertice)
-        C = (N-1)/self.somatorio
-        return (C)
-
+    def imprimeCaminhoMinimo(self, vertice):
+        flag = self.floydWarshall(vertice)
+        if flag == 1:
+            rot = self.matrizR[vertice - 1]
+            for i in range(len(rot)):
+                print(f'>>> Caminho mínimo entre {vertice} e {i + 1}: {round(rot[i], 2)}')
+            print("\n")
+            dt = self.matrizL[vertice - 1]
+            for i in range(len(dt)):
+                print(f'>>> Distância entre {vertice} e {i + 1}: {round(dt[i], 2)}')
+        else:
+            return
