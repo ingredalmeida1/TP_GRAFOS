@@ -21,4 +21,4 @@ if tipoEntrada == 0:
 
 vertice = int(input("\nEscolha um vértice: "))
 os.system("clear")
-imprimeBiblioteca(vertice, grafo)
+imprimeBiblioteca(vertice, grafo, numVertices)

@@ -2,6 +2,7 @@ class Grafo:
     matrizL = []
     matrizR = []
     somatorio = 0
+    flag = 0
 
     def __init__(self, quantidadeVertices):
         self.quantidadeVertices = quantidadeVertices
@@ -54,7 +55,17 @@ class Grafo:
         print(f'\n>>> Sequência de graus do grafo: {sequencia}')
 
     
-    # def excentricidade()
+    def excentricidade(self, vertice):
+        if self.flag == 1:
+            dt = self.matrizL[vertice - 1]
+            dt.sort()
+            return (dt[-1])
+        else:
+            print(
+                "Ciclo negativo identificado, por consequência não é possível calcular"
+            )
+
+
     # def raio()
     # def diametro()
     # def centro()
@@ -62,8 +73,7 @@ class Grafo:
 
 
     def centralidade(self, vertice):
-        flag = self.floydWarshall(vertice)
-        if flag == 1:
+        if self.flag == 1:
             for j in range(self.quantidadeVertices):
                 self.somatorio = self.somatorio + self.matrizL[j][vertice]
             N = self.ordem()
@@ -89,31 +99,53 @@ class Grafo:
             for j in range(n):
                 if self.matrizL[i][j] != infinito:
                     self.matrizR[i][j] = i + 1
+        print("INICIALIZACAO")
+        for i in range(self.quantidadeVertices):
+            print(self.matrizL[i])
+        print("\n")
+        for i in range(self.quantidadeVertices):
+            print(self.matrizR[i])
+        print("\n")
         for k in range(n):
             for i in range(n):
                 for j in range(n):
                     if self.matrizL[i][j] > self.matrizL[i][k] + self.matrizL[k][j]:
                         self.matrizL[i][j] = self.matrizL[i][k] + self.matrizL[k][j]
                         self.matrizR[i][j] = self.matrizR[k][j]
+        print("RESULTADO FINAL")
+        for i in range(self.quantidadeVertices):
+            print(self.matrizL[i])
+        print("\n")
+        for i in range(self.quantidadeVertices):
+            print(self.matrizR[i])
+        print("\n")
         for i in range(n):
             for j in range(n):
                 if i == j:
                     if self.matrizL[i][j] < 0:
                         print(">>> Ciclo negativo identificado, não é possível encontrar o menor caminho")
-                        return 0
+                        self.flag = 0
                     else:
-                        return 1
+                        self.flag = 1
         
 
-    def imprimeCaminhoMinimo(self, vertice):
-        flag = self.floydWarshall(vertice)
-        if flag == 1:
-            rot = self.matrizR[vertice - 1]
-            for i in range(len(rot)):
-                print(f'>>> Caminho mínimo entre {vertice} e {i + 1}: {round(rot[i], 2)}')
-            print("\n")
-            dt = self.matrizL[vertice - 1]
-            for i in range(len(dt)):
-                print(f'>>> Distância entre {vertice} e {i + 1}: {round(dt[i], 2)}')
+    def imprimeCaminho(self, vOrigem, vDestino):
+        if self.flag == 1:
+            caminho = []
+            caminho.append(vDestino)
+            i = self.matrizR[vOrigem - 1][vDestino - 1]
+            while(True):
+                caminho.append(i)
+                if i == vOrigem:
+                    break
+                else:
+                    i = self.matrizR[vOrigem-1][i-1]
+            caminho.reverse()
+            return caminho
         else:
             return
+
+    def imprimeDistancia(self, vertice):
+        dt = self.matrizL[vertice - 1]
+        for i in range(len(dt)):
+            print(f'>>> Distância entre {vertice} e {i + 1}: {round(dt[i], 2)}')

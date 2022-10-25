@@ -8,19 +8,23 @@ def escolhaArq():
     tipo = int(input(">>> "))
     return tipo
 
-def imprimeBiblioteca(vertice, grafo):
-    print(f'VÉRTICE ESCOLHIDO: {vertice}\n')
+def imprimeBiblioteca(vertice, grafo, n):
+    grafo.floydWarshall(vertice)
+    print(f'VÉRTICE ESCOLHIDO: {vertice}')
     print("\n>>> Ordem do grafo: ", grafo.ordem())
     print("\n>>> Tamanho do grafo: ", grafo.tamanho())
     grafo.retornaVizinhos(vertice)
     grafo.grauVertice(vertice)
     grafo.sequenciaGraus()
-    print("\n>>> Excentricidade do vértice: ")
+    print(f'\n>>> Excentricidade do vértice {vertice}: ', grafo.excentricidade(vertice))
     print("\n>>> Raio do grafo: ")
     print("\n>>> Diâmetro do grafo: ")
     print("\n>>> Centro do grafo: ")
     print("\n>>> Busca em profundidade: ")
-    grafo.floydWarshall(vertice)
-    print("\n>>> Distância e caminho mínimo")
-    grafo.imprimeCaminhoMinimo(vertice)
+    print("\n>>> Distância e caminho mínimo\n")
+    for i in range(n):
+        print(f'>>>Caminho minimo entre {vertice} e {i + 1}: {grafo.imprimeCaminho(vertice, i + 1)}')
+    print("\n")
+    grafo.imprimeDistancia(vertice)
     print("\n>>> Centralidade: ", grafo.centralidade(vertice))
+    print("\n")
