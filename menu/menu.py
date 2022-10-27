@@ -17,9 +17,9 @@ def imprimeBiblioteca(vertice, grafo, n):
     grafo.grauVertice(vertice)
     grafo.sequenciaGraus()
     print(f'\n>>> Excentricidade do vértice {vertice}: ', grafo.excentricidade(vertice))
-    print("\n>>> Raio do grafo: ")
-    print("\n>>> Diâmetro do grafo: ")
-    print("\n>>> Centro do grafo: ")
+    print("\n>>> Raio do grafo: ", grafo.raio())
+    print("\n>>> Diâmetro do grafo: ", grafo.diametro())
+    print("\n>>> Centro do grafo: ", grafo.centro())
     print("\n>>> Busca em profundidade: ")
     print("\n>>> Distância e caminho mínimo\n")
     for i in range(n):

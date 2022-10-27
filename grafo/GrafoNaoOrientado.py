@@ -66,9 +66,39 @@ class Grafo:
             )
 
 
-    # def raio()
-    # def diametro()
-    # def centro()
+    def raio(self):
+        if self.flag == 1:
+            menor = self.excentricidade(0)
+            for i in range(self.quantidadeVertices):
+                a = self.excentricidade(i)
+
+                if (a < menor):
+                    menor = a
+            return menor
+        else:
+            return "Ciclo negativo identificado, por consequência não é possível calcular"
+
+
+    def diametro(self):
+        if self.flag == 1:
+            maior = 0
+            for i in range(self.quantidadeVertices):
+                excentricidade = self.excentricidade(i)
+                if excentricidade > maior:
+                    maior = excentricidade
+            return (maior)
+        else:
+            return "Ciclo negativo identificado, por consequência não é possível calcular"
+    
+    def centro(self):
+        menor = self.raio()
+        centro = []
+        for i in range(self.quantidadeVertices):
+            if self.excentricidade(i) == menor:
+                centro.append(i)
+        return centro
+
+
     # def buscaProfundidade()
 
 
@@ -99,26 +129,12 @@ class Grafo:
             for j in range(n):
                 if self.matrizL[i][j] != infinito:
                     self.matrizR[i][j] = i + 1
-        print("INICIALIZACAO")
-        for i in range(self.quantidadeVertices):
-            print(self.matrizL[i])
-        print("\n")
-        for i in range(self.quantidadeVertices):
-            print(self.matrizR[i])
-        print("\n")
         for k in range(n):
             for i in range(n):
                 for j in range(n):
                     if self.matrizL[i][j] > self.matrizL[i][k] + self.matrizL[k][j]:
                         self.matrizL[i][j] = self.matrizL[i][k] + self.matrizL[k][j]
                         self.matrizR[i][j] = self.matrizR[k][j]
-        print("RESULTADO FINAL")
-        for i in range(self.quantidadeVertices):
-            print(self.matrizL[i])
-        print("\n")
-        for i in range(self.quantidadeVertices):
-            print(self.matrizR[i])
-        print("\n")
         for i in range(n):
             for j in range(n):
                 if i == j:
