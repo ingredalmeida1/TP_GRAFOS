@@ -1,6 +1,7 @@
+from time import sleep
 from grafo.GrafoNaoOrientado import Grafo
 from leitor.LeitorTxt import TxtLeitor
-from menu.menu import escolhaArq, imprimeBiblioteca, menu
+from menu.menu import biblioteca, escolhaArq, menu
 import os
 
 menu()
@@ -19,6 +20,9 @@ if tipoEntrada == 0:
             peso = float(aresta[1]['peso'])
             grafo.adicionaAresta(vertice1, vertice2, peso)
 
-vertice = int(input("\nEscolha um vértice: "))
 os.system("clear")
-imprimeBiblioteca(vertice, grafo, numVertices)
+
+while(True):
+    biblioteca(grafo, numVertices)
+    sleep(2)
+    os.system("clear")
