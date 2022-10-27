@@ -62,3 +62,5 @@ def biblioteca(grafo, numVertices):
             grafo.imprimeDistancia(vertice)
         elif escolha == 12:
             print("\n>>> Centralidade: ", grafo.centralidade(vertice))
+        else:
+            return
