@@ -165,12 +165,11 @@ class Grafo:
             for j in range(n):
                 if i == j:
                     if self.matrizL[i][j] < 0:
-                        print(
-                            ">>> Ciclo negativo identificado, não é possível encontrar o menor caminho"
-                        )
                         self.flag = 0
+                        return 0
                     else:
                         self.flag = 1
+
 
     def imprimeCaminho(self, vOrigem, vDestino):
         if self.flag == 1:

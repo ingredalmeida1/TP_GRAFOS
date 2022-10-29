@@ -36,7 +36,7 @@ def biblioteca(grafo, numVertices):
         print("O vértice digitado não existe no grafo")
         return
     else:
-        grafo.floydWarshall(vertice)
+        aux = grafo.floydWarshall(vertice)
         if escolha == 1:
             print("\n>>> Ordem do grafo: ", grafo.ordem())
         elif escolha == 2:
@@ -60,13 +60,16 @@ def biblioteca(grafo, numVertices):
             print(f"\n>>> Busca em profundidade {vertice} : ",
                   grafo.buscaProfundidade(vertice))
         elif escolha == 11:
-            print("\n>>> Distância e caminho mínimo\n")
-            for i in range(numVertices):
-                print(
-                    f'>>>Caminho minimo entre {vertice} e {i + 1}: {grafo.imprimeCaminho(vertice, i + 1)}'
-                )
-            print("\n")
-            grafo.imprimeDistancia(vertice)
+            if aux == 0:
+                print("Ciclo negativo identificado, não foi possível calcular o caminho")
+            else:
+                print("\n>>> Distância e caminho mínimo\n")
+                for i in range(numVertices):
+                    print(
+                        f'>>>Caminho minimo entre {vertice} e {i + 1}: {grafo.imprimeCaminho(vertice, i + 1)}'
+                    )
+                print("\n")
+                grafo.imprimeDistancia(vertice)
         elif escolha == 12:
             print("\n>>> Centralidade: ", grafo.centralidade(vertice))
         else:
