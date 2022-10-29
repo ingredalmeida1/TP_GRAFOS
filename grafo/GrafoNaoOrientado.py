@@ -1,5 +1,3 @@
-import json
-
 class Grafo:
     matrizL = []
     matrizR = []
@@ -8,18 +6,16 @@ class Grafo:
 
     def __init__(self, quantidadeVertices):
         self.quantidadeVertices = quantidadeVertices
-        self.aresta = [[0 for j in range(self.quantidadeVertices)] for i in range(self.quantidadeVertices)]
-
+        self.aresta = [[0 for j in range(self.quantidadeVertices)]
+                       for i in range(self.quantidadeVertices)]
 
     def adicionaAresta(self, vertice1, vertice2, peso):
         self.aresta[vertice1 - 1][vertice2 - 1] = peso
         self.aresta[vertice2 - 1][vertice1 - 1] = peso
 
-
     def ordem(self):
         ordem = self.quantidadeVertices
         return ordem
-
 
     def tamanho(self):
         tam = 0
@@ -30,14 +26,13 @@ class Grafo:
         tam = tam / 2
         return int(tam)
 
-
     def retornaVizinhos(self, vertice):
         vizinhos = []
         for i in range(self.quantidadeVertices):
             if self.aresta[vertice - 1][i] != 0:
                 vizinhos.append(i + 1)
         print(f"\n>>> Vizinhos do vértice {vertice} -> {vizinhos}")
-
+        return vizinhos
 
     def grauVertice(self, vertice):
         grau = 0
@@ -45,7 +40,6 @@ class Grafo:
             if self.aresta[vertice - 1][i] != 0:
                 grau += 1
         print(f'\n>>> Grau do vértice {vertice}: {grau}')
-
 
     def sequenciaGraus(self):
         sequencia = [0 for i in range(self.quantidadeVertices)]
@@ -56,7 +50,6 @@ class Grafo:
         sequencia.sort(reverse=True)
         print(f'\n>>> Sequência de graus do grafo: {sequencia}')
 
-    
     def excentricidade(self, vertice):
         if self.flag == 1:
             dt = self.matrizL[vertice - 1]
@@ -66,7 +59,6 @@ class Grafo:
             print(
                 "Ciclo negativo identificado, por consequência não é possível calcular"
             )
-
 
     def raio(self):
         if self.flag == 1:
@@ -80,7 +72,6 @@ class Grafo:
         else:
             return "Ciclo negativo identificado, por consequência não é possível calcular"
 
-
     def diametro(self):
         if self.flag == 1:
             maior = 0
@@ -91,7 +82,7 @@ class Grafo:
             return (maior)
         else:
             return "Ciclo negativo identificado, por consequência não é possível calcular"
-    
+
     def centro(self):
         menor = self.raio()
         centro = []
@@ -100,33 +91,51 @@ class Grafo:
                 centro.append(i)
         return centro
 
+    def buscaProfundidade(self, vertice):
+        profundidade = []
+        arestasRetorno = []
+        verticesMarcados = []
+        arestasExploradas = []
+        self.buscaProfundidadeRecursiva(vertice, arestasExploradas,
+                                        verticesMarcados, profundidade,
+                                        arestasRetorno)
+        return verticesMarcados, arestasRetorno
 
-    # def buscaProfundidade()
+    def buscaProfundidadeRecursiva(self, vertice, arestasExploradas,
+                                   verticesMarcados, profundidade,
+                                   arestasRetorno):
+        if not vertice in verticesMarcados:
+            verticesMarcados.append(vertice)
 
-    def converteJSON(inputFile, outputFile):
-        with open(inputFile, 'r') as arq:
-            arq = arq.read()
-            jsonFile = json.loads(arq)
-            vertices = jsonFile["data"]["nodes"]["_data"]
-            arestas = jsonFile["data"]["edges"]["_data"]
-            tamanhoGrafo = len(vertices)
-            with open(outputFile, 'w') as out:
-                out.write(f'{str(tamanhoGrafo)}\n')
-                for idAresta in arestas:
-                    linha = f'{str(arestas[idAresta]["from"])} {str(arestas[idAresta]["to"])} {str(arestas[idAresta]["label"])}\n'
-                    out.write(linha)
-            print("Salvo como: " + outputFile)
+        vizinhosAtuais = self.retornaVizinhos(vertice)
+
+        for i in vizinhosAtuais:
+            aresta = []
+            aresta.append(vertice)
+            aresta.append(i)
+            aresta.sort()
+            if not i in verticesMarcados:
+                arestasExploradas.append(aresta)
+                verticesMarcados.append(i)
+                if not aresta in profundidade:
+                    profundidade.append(aresta)
+                self.buscaProfundidadeRecursiva(i, arestasExploradas,
+                                                verticesMarcados, profundidade,
+                                                arestasRetorno)
+            else:
+                if not aresta in arestasExploradas and not aresta in arestasRetorno:
+                    arestasExploradas.append(aresta)
+                    arestasRetorno.append(aresta)
 
     def centralidade(self, vertice):
         if self.flag == 1:
             for j in range(self.quantidadeVertices):
                 self.somatorio = self.somatorio + self.matrizL[j][vertice]
             N = self.ordem()
-            C = (N-1)/self.somatorio
+            C = (N - 1) / self.somatorio
             return (round(C, 2))
         else:
             return "Ciclo negativo identificado, por consequência não é possível calcular"
-
 
     def floydWarshall(self, vertice):
         n = self.quantidadeVertices
@@ -147,30 +156,33 @@ class Grafo:
         for k in range(n):
             for i in range(n):
                 for j in range(n):
-                    if self.matrizL[i][j] > self.matrizL[i][k] + self.matrizL[k][j]:
-                        self.matrizL[i][j] = self.matrizL[i][k] + self.matrizL[k][j]
+                    if self.matrizL[i][
+                            j] > self.matrizL[i][k] + self.matrizL[k][j]:
+                        self.matrizL[i][
+                            j] = self.matrizL[i][k] + self.matrizL[k][j]
                         self.matrizR[i][j] = self.matrizR[k][j]
         for i in range(n):
             for j in range(n):
                 if i == j:
                     if self.matrizL[i][j] < 0:
-                        print(">>> Ciclo negativo identificado, não é possível encontrar o menor caminho")
+                        print(
+                            ">>> Ciclo negativo identificado, não é possível encontrar o menor caminho"
+                        )
                         self.flag = 0
                     else:
                         self.flag = 1
-        
 
     def imprimeCaminho(self, vOrigem, vDestino):
         if self.flag == 1:
             caminho = []
             caminho.append(vDestino)
             i = self.matrizR[vOrigem - 1][vDestino - 1]
-            while(True):
+            while (True):
                 caminho.append(i)
                 if i == vOrigem:
                     break
                 else:
-                    i = self.matrizR[vOrigem-1][i-1]
+                    i = self.matrizR[vOrigem - 1][i - 1]
             caminho.reverse()
             return caminho
         else:
@@ -179,4 +191,5 @@ class Grafo:
     def imprimeDistancia(self, vertice):
         dt = self.matrizL[vertice - 1]
         for i in range(len(dt)):
-            print(f'>>> Distância entre {vertice} e {i + 1}: {round(dt[i], 2)}')
+            print(
+                f'>>> Distância entre {vertice} e {i + 1}: {round(dt[i], 2)}')

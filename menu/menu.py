@@ -1,14 +1,17 @@
 import os
 
+
 def menu():
-    print("="* 60)
-    print(3*"\t","MENU")
-    print("="* 60)
+    print("=" * 60)
+    print(3 * "\t", "MENU")
+    print("=" * 60)
+
 
 def escolhaArq():
     print("\n(0) Arquivo txt\n(1) Arquivo json")
     tipo = int(input(">>> "))
     return tipo
+
 
 def biblioteca(grafo, numVertices):
     print("ESCOLHA UMA FUNCIONALIDADE:\n")
@@ -45,7 +48,8 @@ def biblioteca(grafo, numVertices):
         elif escolha == 5:
             grafo.sequenciaGraus()
         elif escolha == 6:
-            print(f'\n>>> Excentricidade do vértice {vertice}: ', grafo.excentricidade(vertice))
+            print(f'\n>>> Excentricidade do vértice {vertice}: ',
+                  grafo.excentricidade(vertice))
         elif escolha == 7:
             print("\n>>> Raio do grafo: ", grafo.raio())
         elif escolha == 8:
@@ -53,11 +57,14 @@ def biblioteca(grafo, numVertices):
         elif escolha == 9:
             print("\n>>> Centro do grafo: ", grafo.centro())
         elif escolha == 10:
-            print("\n>>> Busca em profundidade: ")
+            print(f"\n>>> Busca em profundidade {vertice} : ",
+                  grafo.buscaProfundidade(vertice))
         elif escolha == 11:
             print("\n>>> Distância e caminho mínimo\n")
             for i in range(numVertices):
-                print(f'>>>Caminho minimo entre {vertice} e {i + 1}: {grafo.imprimeCaminho(vertice, i + 1)}')
+                print(
+                    f'>>>Caminho minimo entre {vertice} e {i + 1}: {grafo.imprimeCaminho(vertice, i + 1)}'
+                )
             print("\n")
             grafo.imprimeDistancia(vertice)
         elif escolha == 12:
