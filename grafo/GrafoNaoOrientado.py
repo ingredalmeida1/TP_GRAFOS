@@ -77,7 +77,9 @@ class Grafo:
             maior = 0
             for i in range(self.quantidadeVertices):
                 excentricidade = self.excentricidade(i)
-                if excentricidade > maior:
+                print("exc = ", excentricidade)
+                print("\nmaior = ", maior)
+                if (excentricidade > maior):
                     maior = excentricidade
             return (maior)
         else:
@@ -137,7 +139,7 @@ class Grafo:
         else:
             return "Ciclo negativo identificado, por consequência não é possível calcular"
 
-    def floydWarshall(self, vertice):
+    def floydWarshall(self):
         n = self.quantidadeVertices
         infinito = float("inf")
         for i in range(n):
@@ -172,20 +174,17 @@ class Grafo:
 
 
     def imprimeCaminho(self, vOrigem, vDestino):
-        if self.flag == 1:
-            caminho = []
-            caminho.append(vDestino)
-            i = self.matrizR[vOrigem - 1][vDestino - 1]
-            while (True):
-                caminho.append(i)
-                if i == vOrigem:
-                    break
-                else:
-                    i = self.matrizR[vOrigem - 1][i - 1]
-            caminho.reverse()
-            return caminho
-        else:
-            return
+        caminho = []
+        caminho.append(vDestino)
+        i = self.matrizR[vOrigem - 1][vDestino - 1]
+        while (True):
+            caminho.append(i)
+            if i == vOrigem:
+                break
+            else:
+                i = self.matrizR[vOrigem - 1][i - 1]
+        caminho.reverse()
+        return caminho
 
     def imprimeDistancia(self, vertice):
         dt = self.matrizL[vertice - 1]
