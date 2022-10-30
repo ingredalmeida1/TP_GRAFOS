@@ -75,8 +75,8 @@ class Grafo:
     def diametro(self):
         if self.flag == 1:
             maior = 0
-            for i in range(self.quantidadeVertices):
-                excentricidade = self.excentricidade(i)
+            for i in range(self.quantidadeVertices - 1):
+                excentricidade = self.excentricidade(i + 1)
                 print("exc = ", excentricidade)
                 print("\nmaior = ", maior)
                 if (excentricidade > maior):
@@ -171,7 +171,6 @@ class Grafo:
                         return 0
                     else:
                         self.flag = 1
-
 
     def imprimeCaminho(self, vOrigem, vDestino):
         caminho = []
