@@ -45,5 +45,5 @@ while (True):
         break
     else:
         biblioteca(grafo, numVertices, escolha)
-        sleep(2)
-        os.system("clear")
+        # sleep(2)
+        # os.system("clear")

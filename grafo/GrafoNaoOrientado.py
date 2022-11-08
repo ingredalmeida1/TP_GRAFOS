@@ -31,7 +31,6 @@ class Grafo:
         for i in range(self.quantidadeVertices):
             if self.aresta[vertice - 1][i] != 0:
                 vizinhos.append(i + 1)
-        print(f"\n>>> Vizinhos do vértice {vertice} -> {vizinhos}")
         return vizinhos
 
     def grauVertice(self, vertice):
@@ -95,8 +94,8 @@ class Grafo:
 
     def buscaProfundidade(self, vertice):
         profundidade = []
-        arestasRetorno = []
         verticesMarcados = []
+        arestasRetorno = []
         arestasExploradas = []
         self.buscaProfundidadeRecursiva(vertice, arestasExploradas,
                                         verticesMarcados, profundidade,
@@ -190,3 +189,5 @@ class Grafo:
         for i in range(len(dt)):
             print(
                 f'>>> Distância entre {vertice} e {i + 1}: {round(dt[i], 2)}')
+            
+    

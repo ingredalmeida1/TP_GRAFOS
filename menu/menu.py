@@ -21,6 +21,7 @@ def menuBiblioteca():
     print("(10) Busca em profundidade")
     print("(11) Distância e caminho mínimo")
     print("(12) Centralidade")
+    print("(13) Verificar se possui ciclo")
     escolha = int(input(">>> "))
     return escolha
     os.system("clear")
@@ -40,7 +41,7 @@ def biblioteca(grafo, numVertices, escolha):
         print("\n>>> Tamanho do grafo: ", grafo.tamanho())
     elif escolha == 3:
         vertice = int(input("\nEscolha um vértice: "))
-        grafo.retornaVizinhos(vertice)
+        print(grafo.retornaVizinhos(vertice))
     elif escolha == 4:
         vertice = int(input("\nEscolha um vértice: "))
         grafo.grauVertice(vertice)
@@ -75,5 +76,7 @@ def biblioteca(grafo, numVertices, escolha):
     elif escolha == 12:
         vertice = int(input("\nEscolha um vértice: "))
         print("\n>>> Centralidade: ", grafo.centralidade(vertice))
+    elif escolha == 13:
+        grafo.possuiCiclo()
     else:
         return
