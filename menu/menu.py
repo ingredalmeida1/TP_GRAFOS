@@ -1,4 +1,4 @@
-import os
+#import os
 
 def menu():
     print("=" * 60)
@@ -22,9 +22,10 @@ def menuBiblioteca():
     print("(11) Distância e caminho mínimo")
     print("(12) Centralidade")
     print("(13) Verificar se possui ciclo")
+    print("(14) Cobertura mínima de vértices")
     escolha = int(input(">>> "))
     return escolha
-    os.system("clear")
+    #os.system("clear")
 
 
 def escolhaArq():
@@ -44,7 +45,7 @@ def biblioteca(grafo, numVertices, escolha):
         print(grafo.retornaVizinhos(vertice))
     elif escolha == 4:
         vertice = int(input("\nEscolha um vértice: "))
-        grafo.grauVertice(vertice)
+        print(f'\n>>> Grau do vértice {vertice}:', grafo.grauVertice(vertice))
     elif escolha == 5:
         grafo.sequenciaGraus()
     elif escolha == 6:
@@ -78,5 +79,7 @@ def biblioteca(grafo, numVertices, escolha):
         print("\n>>> Centralidade: ", grafo.centralidade(vertice))
     elif escolha == 13:
         grafo.possuiCiclo()
+    elif escolha == 14:
+        grafo.coberturaMinima()
     else:
         return
