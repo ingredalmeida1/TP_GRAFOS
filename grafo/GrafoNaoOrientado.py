@@ -211,9 +211,6 @@ class Grafo:
             indice = graus.index(maiorGrau)
             vertices.append(indice + 1)
             graus[indice] = 0
-
-        for i in arestas:
-            print(i)
         
         cont = 0
         while sum([sum(x) for x in arestas]) != 0 and cont < len(vertices):
