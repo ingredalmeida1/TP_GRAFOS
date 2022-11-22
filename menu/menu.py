@@ -1,5 +1,3 @@
-#import os
-
 def menu():
     print("=" * 60)
     print(3 * "\t", "MENU")
