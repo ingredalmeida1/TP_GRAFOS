@@ -227,7 +227,31 @@ class Grafo:
         print(f'Cobertura: {cobertura}')
         print(f'Absorção: {absorcao}')
         
-        
+    def arvGeradoraMinima(self, vertice):
+        fechados = []  
+        abertos = list(range(1, self.quantidadeVertices+1))
+        arvoreMin = []
+        N = self.ordem()
+
+        fechados.append(vertice)
+        abertos.remove(vertice)
+        arvoreMin.append(vertice)
+
+        while len(fechados) != N:
+            menor = float('inf')
+            for i in fechados:
+                for j in range(self.quantidadeVertices):
+                    if  self.matrizL[i-1][j] < menor and self.matrizL[i-1][j] != 0 and (j + 1) not in fechados:
+                        menor = self.matrizL[i-1][j]
+                        indiceI = i
+                        indiceJ = j +1 
+
+            fechados.append(indiceJ)
+            abertos.remove(indiceJ)
+            arvoreMin.append((indiceI, indiceJ))
+
+            
+        print(arvoreMin)    
             
             
             

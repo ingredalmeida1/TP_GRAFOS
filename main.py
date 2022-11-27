@@ -1,9 +1,7 @@
-from time import sleep
 from grafo.GrafoNaoOrientado import Grafo
 from leitor.LeitorTxt import TxtLeitor
 from leitor.LeitorJSON import converteJSON
 from menu.menu import biblioteca, escolhaArq, menu, menuBiblioteca
-import os
 
 menu()
 tipoEntrada = escolhaArq()
@@ -37,13 +35,10 @@ else:
             peso = 1
             grafo.adicionaAresta(vertice1, vertice2, peso)
 
-os.system("clear")
-
 while (True):
     escolha = menuBiblioteca()
     if escolha == 0:
         break
     else:
+        print("\n")
         biblioteca(grafo, numVertices, escolha)
-        # sleep(2)
-        # os.system("clear")
