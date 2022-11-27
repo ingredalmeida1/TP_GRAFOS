@@ -251,8 +251,31 @@ class Grafo:
             arvoreMin.append((indiceI, indiceJ))
 
             
-        print(arvoreMin)    
+        print(f'Árvore mínima: {arvoreMin}')    
             
-            
-            
-    
+    def matchingMaximo(self):
+        graus = []
+        vertices = []
+        arestas = []
+        matching = []
+        for i in range(self.quantidadeVertices):
+            arestas.append(self.aresta[i])
+        for i in range(self.quantidadeVertices):
+            graus.append(self.grauVertice(i + 1))
+        for i in range(self.quantidadeVertices):
+            maiorGrau = max(graus)
+            indice = graus.index(maiorGrau)
+            vertices.append(indice + 1)
+            graus[indice] = 0
+        cont = 0
+        while sum([sum(x) for x in arestas]) != 0 and cont < len(vertices):
+            k = vertices[cont]
+            if sum(arestas[k - 1]) != 0:
+                matching.append(k)
+                for i in range(self.quantidadeVertices):
+                    arestas[k - 1][i] = 0
+                    arestas[i][k - 1] = 0
+            cont += 1
+        print(f'Vetor de vértices: {vertices}')
+        print(f'Matching: {matching}')
+        print(f'Número de arestas do matching: {len(matching)}')        

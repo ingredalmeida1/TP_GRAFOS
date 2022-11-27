@@ -40,5 +40,4 @@ while (True):
     if escolha == 0:
         break
     else:
-        print("\n")
         biblioteca(grafo, numVertices, escolha)

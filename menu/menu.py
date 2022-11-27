@@ -5,7 +5,7 @@ def menu():
 
 
 def menuBiblioteca():
-    print("ESCOLHA UMA FUNCIONALIDADE:\n")
+    print("\nESCOLHA UMA FUNCIONALIDADE:\n")
     print("(0) Para sair")
     print("(1) Ordem do grafo")
     print("(2) Tamnho do grafo")
@@ -22,9 +22,9 @@ def menuBiblioteca():
     print("(13) Verificar se possui ciclo")
     print("(14) Cobertura mínima de vértices")
     print("(15) Árvore geradora mínima")
+    print("(16) Emparelhamento máximo")
     escolha = int(input(">>> "))
     return escolha
-    #os.system("clear")
 
 
 def escolhaArq():
@@ -79,9 +79,12 @@ def biblioteca(grafo, numVertices, escolha):
     elif escolha == 13:
         grafo.possuiCiclo()
     elif escolha == 14:
+        print("\n")
         grafo.coberturaMinima()
     elif escolha == 15:
         vertice = int(input("\nEscolha um vértice: "))
         grafo.arvGeradoraMinima(vertice)
+    elif escolha == 16:
+        grafo.matchingMaximo()
     else:
         return
