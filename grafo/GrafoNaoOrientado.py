@@ -189,21 +189,21 @@ class Grafo:
         for i in range(len(dt)):
             print(
                 f'>>> Distância entre {vertice} e {i + 1}: {round(dt[i], 2)}')
-    
+
     def coberturaMinima(self):
         cobertura = []
         absorcao = 0
         vertices = []
         arestas = []
         graus = []
-        
+
         # matriz com as arestas do grafo
         for i in range(self.quantidadeVertices):
             arestas.append(self.aresta[i])
-        
+
         # vetor com os graus de cada vértice do grafo
         for i in range(self.quantidadeVertices):
-            graus.append(self.grauVertice(i + 1)) 
+            graus.append(self.grauVertice(i + 1))
 
         # vetor com os vertices ordenados em ordem decrescente pelo grau
         for i in range(self.quantidadeVertices):
@@ -211,7 +211,7 @@ class Grafo:
             indice = graus.index(maiorGrau)
             vertices.append(indice + 1)
             graus[indice] = 0
-        
+
         cont = 0
         while sum([sum(x) for x in arestas]) != 0 and cont < len(vertices):
             k = vertices[cont]
@@ -222,13 +222,34 @@ class Grafo:
                     arestas[i][k - 1] = 0
                 absorcao += 1
             cont += 1
-            
+
         print(f'Vetor de vértices: {vertices}')
         print(f'Cobertura: {cobertura}')
         print(f'Absorção: {absorcao}')
-        
-        
-            
-            
-            
-    
+
+    def matchingMaximo(self):
+        graus = []
+        vertices = []
+        arestas = []
+        matching = []
+        for i in range(self.quantidadeVertices):
+            arestas.append(self.aresta[i])
+        for i in range(self.quantidadeVertices):
+            graus.append(self.grauVertice(i + 1))
+        for i in range(self.quantidadeVertices):
+            maiorGrau = max(graus)
+            indice = graus.index(maiorGrau)
+            vertices.append(indice + 1)
+            graus[indice] = 0
+        cont = 0
+        while sum([sum(x) for x in arestas]) != 0 and cont < len(vertices):
+            k = vertices[cont]
+            if sum(arestas[k - 1]) != 0:
+                matching.append(k)
+                for i in range(self.quantidadeVertices):
+                    arestas[k - 1][i] = 0
+                    arestas[i][k - 1] = 0
+            cont += 1
+        print(f'Vetor de vértices: {vertices}')
+        print(f'Matching: {matching}')
+        print(f'Número de arestas do matching: {len(matching)}')
