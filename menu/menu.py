@@ -21,6 +21,7 @@ def menuBiblioteca():
     print("(12) Centralidade")
     print("(13) Verificar se possui ciclo")
     print("(14) Cobertura mínima de vértices")
+    print("(15) Emparelhamento máximo do grafo")
     escolha = int(input(">>> "))
     return escolha
     #os.system("clear")
@@ -63,7 +64,9 @@ def biblioteca(grafo, numVertices, escolha):
     elif escolha == 11:
         vertice = int(input("\nEscolha um vértice: "))
         if aux == 0:
-            print("Ciclo negativo identificado, não foi possível calcular o caminho")
+            print(
+                "Ciclo negativo identificado, não foi possível calcular o caminho"
+            )
         else:
             print("\n>>> Distância e caminho mínimo\n")
             for i in range(numVertices):
@@ -79,5 +82,7 @@ def biblioteca(grafo, numVertices, escolha):
         grafo.possuiCiclo()
     elif escolha == 14:
         grafo.coberturaMinima()
+    elif escolha == 15:
+        grafo.matchingMaximo()
     else:
         return
