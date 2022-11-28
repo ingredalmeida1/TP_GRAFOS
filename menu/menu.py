@@ -60,7 +60,7 @@ def biblioteca(grafo, numVertices, escolha):
     elif escolha == 10:
         vertice = int(input("\nEscolha um vértice: "))
         print(f"\n>>> Busca em profundidade {vertice} : ",
-              grafo.buscaProfundidade(vertice))
+              grafo.buscaProfundidade(vertice, escolha))
     elif escolha == 11:
         vertice = int(input("\nEscolha um vértice: "))
         if aux == 0:
@@ -77,7 +77,7 @@ def biblioteca(grafo, numVertices, escolha):
         vertice = int(input("\nEscolha um vértice: "))
         print("\n>>> Centralidade: ", grafo.centralidade(vertice))
     elif escolha == 13:
-        grafo.possuiCiclo()
+        print("\n>>>", grafo.buscaProfundidade(1, escolha)) 
     elif escolha == 14:
         print("\n")
         grafo.coberturaMinima()

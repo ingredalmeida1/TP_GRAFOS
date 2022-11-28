@@ -92,19 +92,25 @@ class Grafo:
                 centro.append(i)
         return centro
 
-    def buscaProfundidade(self, vertice):
+    def buscaProfundidade(self, vertice, escolha):
         profundidade = []
         verticesMarcados = []
         arestasRetorno = []
         arestasExploradas = []
-        self.buscaProfundidadeRecursiva(vertice, arestasExploradas,
+        p = self.buscaProfundidadeRecursiva(vertice, arestasExploradas,
                                         verticesMarcados, profundidade,
-                                        arestasRetorno)
-        return verticesMarcados, arestasRetorno
+                                        arestasRetorno, escolha)
+        if escolha == 10:
+            return verticesMarcados, arestasRetorno
+        elif escolha == 13:
+            if p == 1:
+                return "HÁ CICLO(S)"
+            else:
+                return "NÃO HÁ CICLOS"
 
     def buscaProfundidadeRecursiva(self, vertice, arestasExploradas,
                                    verticesMarcados, profundidade,
-                                   arestasRetorno):
+                                   arestasRetorno, escolha):
         if not vertice in verticesMarcados:
             verticesMarcados.append(vertice)
 
@@ -122,11 +128,15 @@ class Grafo:
                     profundidade.append(aresta)
                 self.buscaProfundidadeRecursiva(i, arestasExploradas,
                                                 verticesMarcados, profundidade,
-                                                arestasRetorno)
+                                                arestasRetorno, escolha)
             else:
+               
                 if not aresta in arestasExploradas and not aresta in arestasRetorno:
-                    arestasExploradas.append(aresta)
-                    arestasRetorno.append(aresta)
+                    if escolha == 13:
+                        return 1
+                    else:
+                        arestasExploradas.append(aresta)
+                        arestasRetorno.append(aresta)
 
     def centralidade(self, vertice):
         if self.flag == 1:
