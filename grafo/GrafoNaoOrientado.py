@@ -237,6 +237,9 @@ class Grafo:
         print(f'Cobertura: {cobertura}')
         print(f'Absorção: {absorcao}')
 
+
+
+                                                                
     def arvGeradoraMinima(self, vertice, nomeArquivo):
 
         fechados = []
@@ -251,11 +254,9 @@ class Grafo:
         while len(fechados) != N:
             menor = float('inf')
             for i in fechados:
-                noAtual = i
                 for j in range(self.quantidadeVertices):
                     if self.aresta[i - 1][j] < menor and self.aresta[
                             i - 1][j] != 0 and (j + 1) not in fechados:
-                        custo += self.aresta[i - 1][j]
                         menor = self.aresta[i - 1][j]
                         indiceI = i
                         indiceJ = j + 1
@@ -266,6 +267,8 @@ class Grafo:
                 indiceI,
                 indiceJ,
             ))
+        for v in arvoreMin:
+            custo+= self.aresta[v[0]-1][v[1]-1]
         with open(nomeArquivo, 'w') as arquivo:
             arquivo.write(f'{len(arvoreMin)}\n')
             for i in arvoreMin:
