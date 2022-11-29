@@ -64,7 +64,9 @@ def biblioteca(grafo, numVertices, escolha):
     elif escolha == 11:
         vertice = int(input("\nEscolha um vértice: "))
         if aux == 0:
-            print("Ciclo negativo identificado, não foi possível calcular o caminho")
+            print(
+                "Ciclo negativo identificado, não foi possível calcular o caminho"
+            )
         else:
             print("\n>>> Distância e caminho mínimo\n")
             for i in range(numVertices):
@@ -77,13 +79,15 @@ def biblioteca(grafo, numVertices, escolha):
         vertice = int(input("\nEscolha um vértice: "))
         print("\n>>> Centralidade: ", grafo.centralidade(vertice))
     elif escolha == 13:
-        print("\n>>>", grafo.buscaProfundidade(1, escolha)) 
+        print("\n>>>", grafo.buscaProfundidade(1, escolha))
     elif escolha == 14:
         print("\n")
         grafo.coberturaMinima()
     elif escolha == 15:
         vertice = int(input("\nEscolha um vértice: "))
-        grafo.arvGeradoraMinima(vertice)
+        nomeArquivo = str(input("Nome do arquivo: "))
+        nomeArquivo = nomeArquivo + ".txt"
+        grafo.arvGeradoraMinima(vertice, nomeArquivo)
     elif escolha == 16:
         grafo.matchingMaximo()
     else:

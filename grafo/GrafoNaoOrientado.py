@@ -98,8 +98,8 @@ class Grafo:
         arestasRetorno = []
         arestasExploradas = []
         p = self.buscaProfundidadeRecursiva(vertice, arestasExploradas,
-                                        verticesMarcados, profundidade,
-                                        arestasRetorno, escolha)
+                                            verticesMarcados, profundidade,
+                                            arestasRetorno, escolha)
         if escolha == 10:
             return verticesMarcados, arestasRetorno
         elif escolha == 13:
@@ -130,7 +130,7 @@ class Grafo:
                                                 verticesMarcados, profundidade,
                                                 arestasRetorno, escolha)
             else:
-               
+
                 if not aresta in arestasExploradas and not aresta in arestasRetorno:
                     if escolha == 13:
                         return 1
@@ -199,21 +199,21 @@ class Grafo:
         for i in range(len(dt)):
             print(
                 f'>>> Distância entre {vertice} e {i + 1}: {round(dt[i], 2)}')
-    
+
     def coberturaMinima(self):
         cobertura = []
         absorcao = 0
         vertices = []
         arestas = []
         graus = []
-        
+
         # matriz com as arestas do grafo
         for i in range(self.quantidadeVertices):
             arestas.append(self.aresta[i])
-        
+
         # vetor com os graus de cada vértice do grafo
         for i in range(self.quantidadeVertices):
-            graus.append(self.grauVertice(i + 1)) 
+            graus.append(self.grauVertice(i + 1))
 
         # vetor com os vertices ordenados em ordem decrescente pelo grau
         for i in range(self.quantidadeVertices):
@@ -221,7 +221,7 @@ class Grafo:
             indice = graus.index(maiorGrau)
             vertices.append(indice + 1)
             graus[indice] = 0
-        
+
         cont = 0
         while sum([sum(x) for x in arestas]) != 0 and cont < len(vertices):
             k = vertices[cont]
@@ -232,37 +232,49 @@ class Grafo:
                     arestas[i][k - 1] = 0
                 absorcao += 1
             cont += 1
-            
+
         print(f'Vetor de vértices: {vertices}')
         print(f'Cobertura: {cobertura}')
         print(f'Absorção: {absorcao}')
-        
-    def arvGeradoraMinima(self, vertice):
-        fechados = []  
-        abertos = list(range(1, self.quantidadeVertices+1))
+
+    def arvGeradoraMinima(self, vertice, nomeArquivo):
+
+        fechados = []
+        abertos = list(range(1, self.quantidadeVertices + 1))
         arvoreMin = []
+        custo = 0
         N = self.ordem()
 
         fechados.append(vertice)
         abertos.remove(vertice)
-        arvoreMin.append(vertice)
 
         while len(fechados) != N:
             menor = float('inf')
             for i in fechados:
+                noAtual = i
                 for j in range(self.quantidadeVertices):
-                    if  self.matrizL[i-1][j] < menor and self.matrizL[i-1][j] != 0 and (j + 1) not in fechados:
-                        menor = self.matrizL[i-1][j]
+                    if self.aresta[i - 1][j] < menor and self.aresta[
+                            i - 1][j] != 0 and (j + 1) not in fechados:
+                        custo += self.aresta[i - 1][j]
+                        menor = self.aresta[i - 1][j]
                         indiceI = i
-                        indiceJ = j +1 
+                        indiceJ = j + 1
 
             fechados.append(indiceJ)
             abertos.remove(indiceJ)
-            arvoreMin.append((indiceI, indiceJ))
+            arvoreMin.append((
+                indiceI,
+                indiceJ,
+            ))
+        with open(nomeArquivo, 'w') as arquivo:
+            arquivo.write(f'{len(arvoreMin)}\n')
+            for i in arvoreMin:
+                arquivo.write(f'{i[0]} {i[1]} {self.aresta[i[0]-1][i[1]-1]}\n')
+            arquivo.write(f'{custo}\n')
+        print(arvoreMin)
+        print(f'Custo: {custo}')
+        print(self.aresta)
 
-            
-        print(f'Árvore mínima: {arvoreMin}')    
-            
     def matchingMaximo(self):
         graus = []
         vertices = []
@@ -288,4 +300,4 @@ class Grafo:
             cont += 1
         print(f'Vetor de vértices: {vertices}')
         print(f'Matching: {matching}')
-        print(f'Número de arestas do matching: {len(matching)}')        
+        print(f'Número de arestas do matching: {len(matching)}')
