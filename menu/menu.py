@@ -20,8 +20,8 @@ def menuBiblioteca():
     print("(11) Distância e caminho mínimo")
     print("(12) Centralidade")
     print("(13) Verificar se possui ciclo")
-    print("(14) Cobertura mínima de vértices")
-    print("(15) Árvore geradora mínima")
+    print("(14) Árvore geradora mínima")
+    print("(15) Cobertura mínima de vértices")
     print("(16) Emparelhamento máximo")
     escolha = int(input(">>> "))
     return escolha
@@ -81,13 +81,13 @@ def biblioteca(grafo, numVertices, escolha):
     elif escolha == 13:
         print("\n>>>", grafo.buscaProfundidade(1, escolha))
     elif escolha == 14:
-        print("\n")
-        grafo.coberturaMinima()
-    elif escolha == 15:
         vertice = int(input("\nEscolha um vértice: "))
         nomeArquivo = str(input("Nome do arquivo: "))
         nomeArquivo = nomeArquivo + ".txt"
         grafo.arvGeradoraMinima(vertice, nomeArquivo)
+    elif escolha == 15:
+        print("\n")
+        grafo.coberturaMinima()
     elif escolha == 16:
         grafo.matchingMaximo()
     else:
